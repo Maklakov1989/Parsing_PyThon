@@ -1,4 +1,4 @@
-# print(('*' * 25), 'Задание №1 к лекции № 1', ('*' * 25))
+print(('*' * 25), 'Задание №1 к лекции № 1', ('*' * 25))
 import requests
 def git_api():
   username = 'Maklakov1989'
