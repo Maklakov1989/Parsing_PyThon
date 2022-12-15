@@ -13,5 +13,11 @@ print(('*' * 25), 'Задание №2 к лекции № 1', ('*' * 25))
 def vk():
   user_id = '1276429'
   request = requests.get('https://api.vk.com/method/users.get?groups.get='+user_id+'&v=5.52')
-  print(request)
+  request = str(request)
+  f_obj = open("HomeWork.txt", 'a')
+  f_obj.writelines(request + '\n')
+  f_obj = open("HomeWork.txt", 'r', encoding='utf-8')
+  content = f_obj.read()
+  print(content)
+  f_obj.close()
 vk()
