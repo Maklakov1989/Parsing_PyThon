@@ -11,9 +11,10 @@ def parsing():
   url = 'https://lenta.ru/'
   link = requests.get(url, headers=headers, params=params)
   news = html.fromstring(link.text)
-  news_list = news.xpath("//span[contains(@class,'card-mini__title')]/text()")[0: 80]
-  news_time = news.xpath("//div[contains(@class,'card-mini__info')]/time/text()")[0: 80]
-  news_dict = dict(zip(news_list, news_time))
+  news_list = news.xpath("//span[contains(@class,'card-mini__title')]/text()")[0: 10]
+  news_time = news.xpath("//div[contains(@class,'card-mini__info')]/time/text()")[0: 10]
+  news_link = news.xpath("//a[contains(@class, 'card-mini')]/@href")[0: 10]
+  news_dict = dict(zip(news_list,zip(news_time,news_link)))
   print(news_dict)
 
 parsing()
