@@ -11,13 +11,9 @@ def parsing():
   url = 'https://lenta.ru/'
   link = requests.get(url, headers=headers, params=params)
   news = html.fromstring(link.text)
-  news_dict = {}
-  for new in news:
-    news_list = new.xpath("//span[contains(@class,'card-mini__title')]/text()")[0]
-    news_time = new.xpath("//div[contains(@class,'card-mini__info')]/time/text()")[0]
-    news_dict[news_list] = {
-      'time' : news_time,
-                            }
+  news_list = news.xpath("//span[contains(@class,'card-mini__title')]/text()")[0: 80]
+  news_time = news.xpath("//div[contains(@class,'card-mini__info')]/time/text()")[0: 80]
+  news_dict = dict(zip(news_list, news_time))
   print(news_dict)
 
 parsing()
