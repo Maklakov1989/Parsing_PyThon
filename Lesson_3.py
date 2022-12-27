@@ -1,4 +1,4 @@
-print(('*' * 25), 'Задание №1 к лекции № 2', ('*' * 25))
+print(('*' * 25), 'Задание №1 к лекции № 3', ('*' * 25))
 import requests
 from lxml import html
 from bs4 import BeautifulSoup
