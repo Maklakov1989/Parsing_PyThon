@@ -1,7 +1,6 @@
 import requests
 from lxml import html
 from pymongo import MongoClient
-import pprint
 
 print(('*' * 25), 'Задание №1 к лекции № 4', ('*' * 25))
 def parsing():
@@ -15,30 +14,40 @@ def parsing():
   }
   client = MongoClient('localhost', 27017)
   db = client.db_news
-
   db.news
   db.news.drop()
-  params = {
-    'message': "",
-  }
   url = 'https://lenta.ru/'
   link = requests.get(url, headers=headers, params=params)
   news = html.fromstring(link.text)
-  #news_list = news.xpath("//span[contains(@class,'card-mini__title')]/text()")[0: 15]
-  #news_time = news.xpath("//div[contains(@class,'card-mini__info')]/time/text()")[0: 15]
-  #news_link = news.xpath("//a[contains(@class, 'card-mini')]/@href")[0: 15]
-  for i in news:
-    x = 1
-    db.news.insert_one(
-      {
-        'Lenta.ru' : news.xpath("//span[contains(@class,'card-mini__title')]/text()")[x],
-        'time' : news.xpath("//div[contains(@class,'card-mini__info')]/time/text()")[x],
-        'link' : news.xpath("//a[contains(@class, 'card-mini')]/@href")[x]
-      }
-    )
-    x = x + 1
+  news_list = news.xpath("//span[contains(@class,'card-mini__title')]/text()")[0: 15]
+  news_time = news.xpath("//div[contains(@class,'card-mini__info')]/time/text()")[0: 15]
+  news_link = news.xpath("//a[contains(@class, 'card-mini')]/@href")[0: 15]
+
+  for item in news_list:
+    data = {}
+    data['Lenta.ru'] = item
+    db.news.insert_one(data)
+
+  for item in news_time:
+    data = {}
+    data['time'] = item
+    db.news.insert_one(data)
+
+  for item in news_link:
+    data = {}
+    data['link'] = url + item
+    db.news.insert_one(data)
+
+  # db.news.insert_one(
+  #   {
+  #     'Lenta.ru': news_list,
+  #     'time': news_time,
+  #     'link': url + news_link
+  #   }
+  # )
   for document in db.news.find():
     print(document)
 
+if __name__ == '__main__':
+    parsing()
 
-parsing()
