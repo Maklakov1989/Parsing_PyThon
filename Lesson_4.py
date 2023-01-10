@@ -1,7 +1,6 @@
 import requests
 from lxml import html
 from pymongo import MongoClient
-import json
 
 print(('*' * 25), 'Задание №1 к лекции № 4', ('*' * 25))
 def parsing():
@@ -25,30 +24,7 @@ def parsing():
   news_link = news.xpath("//a[contains(@class, 'card-mini')]/@href")[0: 15]
   d = {'Lenta.ru': [{'Message': m, 'Time': t, 'link': url + l} for m, t, l
                     in zip(news_list, news_time, news_link)]}
-  #print(json.dumps(d, indent=4))
   db.news.insert_one(d)
-  # for item in news_list:
-  #   data = {}
-  #   data['Lenta.ru'] = item
-  #   db.news.insert_one(data)
-  #
-  # for item in news_time:
-  #   data = {}
-  #   data['time'] = item
-  #   db.news.insert_one(data)
-  #
-  # for item in news_link:
-  #   data = {}
-  #   data['link'] = url + item
-  #   db.news.insert_one(data)
-
-  # db.news.insert_one(
-  #   {
-  #     'Lenta.ru': news_list,
-  #     'time': news_time,
-  #     'link': url + news_link
-  #   }
-  # )
   for document in db.news.find():
     print(document)
 
